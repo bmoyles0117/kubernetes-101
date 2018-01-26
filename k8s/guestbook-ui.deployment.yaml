@@ -1,0 +1,32 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: guestbook-ui
+spec:
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        app: guestbook-ui
+        lang: python
+        version: "1.0"
+    spec:
+      containers:
+      - name: guestbook-ui
+        image: bmoyles0117/guestbook-ui:v1
+        imagePullPolicy: IfNotPresent
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 5000
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 5000
+        ports:
+        - name: http
+          containerPort: 5000
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate

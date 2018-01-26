@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: message-api
+  labels:
+    app: message-api
+spec:
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    app: message-api
+  type: ClusterIP

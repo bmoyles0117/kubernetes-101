@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Kubernetes 101 Guestbook</title>
+
+    <!-- Bootstrap -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="container">
+
+      <div class="page-header">
+        <h1>Guestbook</h1>
+        <p class="lead">Welcome to the Kubernetes Guestbook! Leave a lovely message below!</p>
+      </div>
+      <div class="row">
+        <h2>Send a message</h2>
+        <form method="post" action="/send-message">
+          {% with messages = get_flashed_messages() %}
+          {% for message in messages %}
+          <div class="alert alert-success" role="alert">{{ message }}</div>
+          {% endfor %}
+          {% endwith %}
+          <div class="form-group">
+            <label for="Name">Name:</label>
+            <input type="text" id="name" name="name" class="form-control" />
+          </div>
+          <div class="form-group">
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" class="form-control"></textarea>
+          </div>
+          <div class="form-group">
+            <input type="submit" value="Send Message" class="btn btn-success" />
+          </div>
+        </form>
+      </div>
+      <div class="row">
+        <h2>Messages</h2>
+        <div class="well well-sm">
+          <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
+          Messages provided by: {{ messages_response["server"] }} - {{ messages_response["persister"] }}
+        </div>
+        <br />
+        {% if messages_response["messages"] %}
+        {% for message in messages_response["messages"] %}
+        <div class="panel panel-default">
+          <div class="panel-heading">From: {{ message["name"] }}</div>
+          <div class="panel-body">
+            {{ message["message"] }}
+          </div>
+        </div>
+        {% endfor %}
+        <!--
+        <ul class="list-group">
+          {% for message in messages_response["messages"] %}
+          <li class="list-group-item">
+            UUID: {{ message["uuid"] }}
+            <br />
+            Name: {{ message["name"] }}
+            <br />
+            <br />
+            {{ message["message"] }}
+          </li>
+          {% endfor %}
+        </ul>
+        -->
+        {% else %}
+        <div class="alert alert-info" role="alert">No messages found! Add your own in the form above.</div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/static/js/bootstrap.min.js"></script>
+  </body>
+</html>

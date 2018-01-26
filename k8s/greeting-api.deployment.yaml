@@ -1,0 +1,28 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: greeting-api
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: greeting-api
+        lang: python
+        version: "1.0"
+    spec:
+      containers:
+      - name: greeting-api
+        image: bmoyles0117/greeting-api-python:v1
+        imagePullPolicy: IfNotPresent
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 5000
+        ports:
+        - name: http
+          containerPort: 5000
+  strategy:
+    rollingUpdate:
+      maxUnavailable: 1
+    type: RollingUpdate
