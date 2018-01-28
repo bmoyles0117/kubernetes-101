@@ -2,8 +2,10 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: guestbook-ui
+  labels:
+    app: guestbook-ui
 spec:
-  replicas: 5
+  replicas: 2
   template:
     metadata:
       labels:

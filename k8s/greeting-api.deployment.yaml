@@ -2,6 +2,10 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: greeting-api
+  labels:
+    app: greeting-api
+    lang: python
+    version: "1.0"
 spec:
   replicas: 2
   template:
