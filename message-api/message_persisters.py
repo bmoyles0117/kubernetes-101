@@ -1,4 +1,5 @@
 import MySQLdb
+import os
 
 class InMemoryMessagePersister(object):
   def __init__(self):
@@ -16,7 +17,12 @@ class InMemoryMessagePersister(object):
 
 class MysqlMessagePersister(object):
   def __init__(self):
-    self.db = MySQLdb.connect(host='mysql', db='messages')
+    self.db = MySQLdb.connect(
+      host="mysql",
+      user=os.environ.get("MYSQL_USERNAME", "root"),
+      passwd=os.environ.get("MYSQL_PASSWORD", ""),
+      db="messages"
+    )
 
   def create_message(self, message):
     with self.db as cursor:
