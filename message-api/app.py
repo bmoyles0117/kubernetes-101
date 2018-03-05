@@ -17,11 +17,11 @@ def get_messages():
 @app.route("/messages", methods=["GET", "POST"])
 def index():
   if request.method == "POST":
-    return message_persister.create_message({
+    return jsonify(message_persister.create_message({
       "uuid": str(uuid.uuid4()),
       "name": request.form.get("name"),
       "message": request.form.get("message")
-    })
+    }))
 
   return jsonify({
     "server": socket.gethostname(),
