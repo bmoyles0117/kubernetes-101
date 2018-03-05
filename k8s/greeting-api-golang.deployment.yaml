@@ -19,10 +19,6 @@ spec:
       - name: greeting-api
         image: bmoyles0117/greeting-api-golang:v1
         imagePullPolicy: IfNotPresent
-        readinessProbe:
-          httpGet:
-            path: /healthz
-            port: 5000
         ports:
         - name: http
           containerPort: 5000
